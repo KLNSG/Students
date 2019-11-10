@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ClassMapper">
+    <cache type="domain.MyCache"/>
+    <resultMap id="class2" type="class">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer"/>
+            <arg column="name" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="classRE" type="class" >
+        <id property="id" column="cid" />
+        <result property="name" column="cname" />
+        <collection property="studentsSet" ofType="student">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="gender" property="gender"/>
+            <result column="telephone" property="telephone"/>
+            <result column="email" property="email"/>
+            <result column="age" property="age"/>
+        </collection>
+    </resultMap>
+    <select id="findAll" resultMap="classRE">
+           select b.id,b.name,b.age,b.gender,b.telephone,b.email,b.classid,a.id cid,a.name cname from classes a inner join students b on a.id=b.classid order by classid
+    </select>
+    <select id="findClass" resultMap="class2">
+        select * from classes
+    </select>
+</mapper>
